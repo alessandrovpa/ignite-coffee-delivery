@@ -1,20 +1,37 @@
 import { Trash } from 'phosphor-react';
-import { useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import ProductImage from '../../../../assets/product.svg';
 import { Quantity } from '../../../../components/QuantityOption';
+import { OrderContext } from '../../../../contexts/OrderContext';
 import { ItemContainer, ItemInfo } from './styles';
 
-export function Item() {
-  const [quantity, setQuantity] = useState(0);
+interface ItemProps {
+  id: string;
+  title: string;
+  price: number;
+  quantity: number;
+}
+
+export function Item({ id, title, price, quantity }: ItemProps) {
+  const [finalQuantity, setFinalQuantity] = useState(quantity);
+  const { removeProduct, updateQuantity } = useContext(OrderContext);
 
   function incrementQuantity() {
-    setQuantity((state) => state + 1);
+    setFinalQuantity((state) => state + 1);
   }
 
   function decrementQuantity() {
-    setQuantity((state) => {
+    setFinalQuantity((state) => {
       return state > 0 ? state - 1 : 0;
     });
+  }
+
+  useEffect(() => {
+    updateQuantity(id, finalQuantity);
+  }, [id, finalQuantity, updateQuantity]);
+
+  function handleRemoveProduct() {
+    removeProduct(id);
   }
 
   return (
@@ -22,14 +39,14 @@ export function Item() {
       <ItemContainer>
         <img src={ProductImage} alt="" />
         <div>
-          <p>Expresso Tradicional</p>
+          <p>{title}</p>
           <ItemInfo>
             <Quantity
-              quantity={quantity}
+              quantity={finalQuantity}
               incrementQuantity={incrementQuantity}
               decrementQuantity={decrementQuantity}
             />
-            <button>
+            <button onClick={handleRemoveProduct}>
               <Trash />
               Remover
             </button>
@@ -37,7 +54,7 @@ export function Item() {
         </div>
         <div>
           <small>R$</small>
-          <strong>9,90</strong>
+          <strong>{price}</strong>
         </div>
       </ItemContainer>
       <hr />

@@ -3,6 +3,53 @@ import CoffeeImage from '../../assets/coffee.svg';
 import { Card } from './components/Card';
 import { HomeContainer, Intro, Products } from './styles';
 
+interface Product {
+  title: string;
+  description: string;
+  price: number;
+  tags: string[];
+}
+
+const products: Product[] = [
+  {
+    title: 'Expresso Tradicional',
+    description: 'O tradicional café feito com água quente e grãos moídos',
+    price: 9.9,
+    tags: ['TRADICIONAL'],
+  },
+  {
+    title: 'Expresso Americano',
+    description: 'Expresso diluído, menos intenso que o tradicional',
+    price: 9.9,
+    tags: ['TRADICIONAL'],
+  },
+  {
+    title: 'Expresso Cremoso',
+    description: 'Café expresso tradicional com espuma cremosa',
+    price: 9.9,
+    tags: ['TRADICIONAL'],
+  },
+  {
+    title: 'Expresso Gelado',
+    description: 'Bebida preparada com café expresso e cubos de gelo',
+    price: 9.9,
+    tags: ['TRADICIONAL', 'GELADO'],
+  },
+  {
+    title: 'Café com Leite',
+    description: 'Meio a meio de expresso tradicional com leite vaporizado',
+    price: 9.9,
+    tags: ['TRADICIONAL', 'COM LEITE'],
+  },
+  {
+    title: 'Latte',
+    description:
+      'Uma dose de café expresso com o dobro de leite e espuma cremosa',
+    price: 9.9,
+    tags: ['TRADICIONAL', 'COM LEITE'],
+  },
+];
+
 export function Home() {
   return (
     <HomeContainer>
@@ -38,12 +85,15 @@ export function Home() {
       <Products>
         <h1>Nosso cafés</h1>
         <ul>
-          <Card />
-          <Card />
-          <Card />
-          <Card />
-          <Card />
-          <Card />
+          {products.map((product) => (
+            <Card
+              title={product.title}
+              description={product.description}
+              price={product.price}
+              tags={product.tags}
+              key={product.title}
+            />
+          ))}
         </ul>
       </Products>
     </HomeContainer>

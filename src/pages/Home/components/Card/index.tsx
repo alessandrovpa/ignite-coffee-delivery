@@ -1,11 +1,20 @@
 import { ShoppingCartSimple } from 'phosphor-react';
-import { useState } from 'react';
+import { useContext, useState } from 'react';
 import Product from '../../../../assets/product.svg';
 import { Quantity } from '../../../../components/QuantityOption';
+import { OrderContext } from '../../../../contexts/OrderContext';
 import { CardContainer, Price, Tags } from './styles';
 
-export function Card() {
-  const [quantity, setQuantity] = useState(0);
+interface CardProps {
+  title: string;
+  description: string;
+  price: number;
+  tags: string[];
+}
+
+export function Card({ title, description, price, tags }: CardProps) {
+  const [quantity, setQuantity] = useState(1);
+  const { addNewProduct } = useContext(OrderContext);
 
   function incrementQuantity() {
     setQuantity((state) => state + 1);
@@ -17,24 +26,35 @@ export function Card() {
     });
   }
 
+  function addProduct() {
+    if (quantity > 0) {
+      addNewProduct({
+        title,
+        quantity,
+        price,
+      });
+    }
+  }
+
   return (
     <CardContainer>
       <img src={Product} alt="" />
       <Tags>
-        <span>Tags</span>
-        <span>Tags</span>
+        {tags.map((tag) => (
+          <span>{tag}</span>
+        ))}
       </Tags>
-      <h3>Expresso Tradicional</h3>
-      <small>O tradicional café feito com água quente e grãos moídos</small>
+      <h3>{title}</h3>
+      <small>{description}</small>
       <Price>
         <small>R$</small>
-        <strong>9,90</strong>
+        <strong>{price}</strong>
         <Quantity
           quantity={quantity}
           decrementQuantity={decrementQuantity}
           incrementQuantity={incrementQuantity}
         />
-        <button>
+        <button onClick={addProduct}>
           <ShoppingCartSimple weight="fill" />
         </button>
       </Price>

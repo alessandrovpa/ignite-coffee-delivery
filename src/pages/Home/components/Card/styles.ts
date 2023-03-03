@@ -28,7 +28,10 @@ export const Tags = styled.div`
   display: flex;
   gap: 0.5rem;
   color: ${(props) => props.theme.yellowDark};
-  font-size: 0.85rem;
+  font-size: 0.75rem;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
   span {
     display: block;
     background: ${(props) => props.theme.yellowLight};
