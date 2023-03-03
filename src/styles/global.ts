@@ -8,7 +8,7 @@ export const GlobalStyle = createGlobalStyle`
   }
   :focus{
     outline: 0;
-    box-shadow: 0 0 0 2px ${(props) => props.theme.primary};
+    box-shadow: 0 0 0 2px ${(props) => props.theme.background};
   }
   body{
     background: ${(props) => props.theme.background};
@@ -18,5 +18,9 @@ export const GlobalStyle = createGlobalStyle`
     font-family: 'Roboto', sans-serif;
     font-weight: 400;
     font-size: 1rem;
+  }
+
+  button:hover{
+    cursor: pointer;
   }
 `;
